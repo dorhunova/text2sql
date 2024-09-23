@@ -1,11 +1,13 @@
 import os
-from distutils.util import strtobool
+import logging
 
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from vanna.chromadb import ChromaDB_VectorStore
 from vanna.flask import VannaFlaskApp
 from vanna.openai import OpenAI_Chat
+
+from text2sql.src.utils import strtobool
 
 load_dotenv()
 
@@ -37,13 +39,13 @@ if __name__ == "__main__":
     client = os.getenv("CLIENT")
 
     if client == "fs":
-        from text2sql.utils.config import FirstStudentConfig
+        from text2sql.src.config import FirstStudentConfig
 
-        config = FirstStudentConfig
+        config = FirstStudentConfig()
     elif client == "netflix":
-        from text2sql.utils.config import NetflixConfig
+        from text2sql.src.config import NetflixConfig
 
-        config = NetflixConfig
+        config = NetflixConfig()
     else:
         raise ValueError(f"Invalid client: {client}")
 
@@ -62,7 +64,7 @@ if __name__ == "__main__":
         vn.remove_training_data(str(id))
 
     config.load_training_data(vn)
-
+    logging.info(f"{type(config.logo)}")
     app = VannaFlaskApp(
         vn,
         allow_llm_to_see_data=bool(
@@ -72,9 +74,9 @@ if __name__ == "__main__":
         sql=bool(strtobool(os.getenv("SQL", "False"))),
         chart=bool(strtobool(os.getenv("CHART", "False"))),
         redraw_chart=bool(strtobool(os.getenv("REDRAW_CHART", "False"))),
-        logo=config.logo,
-        title=config.title,
-        subtitle=config.subtitle,
+        logo=config.get_logo(),
+        title=config.get_title(),
+        subtitle=config.get_subtitle(),
         summarization=bool(strtobool(os.getenv("SUMMARIZATION", "False"))),
     )
 
