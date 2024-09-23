@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "text2sql"
+version = "0.1.0"
+description = ""
+authors = ["Daria Orhunova <dorhunova@n-ix.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+kaleido = "0.2.1"
+vanna = {git = "https://github.com/dorhunova/vanna.git", rev = "feature/update_plots_functionality_and_front"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
