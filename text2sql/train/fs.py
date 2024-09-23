@@ -93,11 +93,11 @@ def load_training_data(vn):
             br_ini.contract_id,
             c.latest_contract_file_name,
             EXTRACT(MONTH FROM br_ini.task_date);
-        """
+        """,
     )
 
     vn.train(
-        question="How month Invoice Amount deviates from average Invoice Amount within a Contract in Spring Quarter?", 
+        question="How month Invoice Amount deviates from average Invoice Amount within a Contract in Spring Quarter?",
         sql="""
         WITH monthly_invoice_amount AS (
         SELECT
@@ -132,7 +132,7 @@ def load_training_data(vn):
         LEFT JOIN average_invoice_amount a
         ON m.contract_id = a.contract_id
         WHERE LOWER(m.latest_contract_file_name) LIKE '%methacton%'
-        """
+        """,
     )
 
     vn.train(
@@ -167,11 +167,11 @@ def load_training_data(vn):
         LEFT JOIN usual_daily_route_number u
         ON EXTRACT(MONTH FROM d.task_date) = u.month
         WHERE d.performed_route_num_per_day < (0.1 * u.usual_route_number_per_day);
-        """
+        """,
     )
 
     vn.train(
-        question="tell me when the contract ends with xenia", 
+        question="tell me when the contract ends with xenia",
         sql="""
         SELECT
             contract_id,
@@ -179,7 +179,7 @@ def load_training_data(vn):
             end_date
         FROM contract
         WHERE LOWER(latest_contract_file_name) LIKE '%xenia%';
-        """
+        """,
     )
 
     vn.train(
@@ -198,5 +198,5 @@ def load_training_data(vn):
         ORDER BY
             year,
             month;
-        """
+        """,
     )
