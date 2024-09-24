@@ -4496,10 +4496,8 @@ weaviate = ["weaviate-client"]
 zhipuai = ["zhipuai"]
 
 [package.source]
-type = "git"
-url = "https://github.com/dorhunova/vanna.git"
-reference = "feature/update_plots_functionality_and_front"
-resolved_reference = "0f512b98a0be3b8bfe51808f13e60bbdc21dd71c"
+type = "directory"
+url = "../vanna"
 
 [[package]]
 name = "watchfiles"
@@ -4887,4 +4885,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "f5eec6f881ed1dfc21704eef12770df164d1fb95adb60e97009c2503e47d4897"
+content-hash = "6a85432736af6f3ba676e58cc2b21025b04dff055b815a7d2bee842384efe7fe"
