@@ -46,6 +46,10 @@ if __name__ == "__main__":
         from text2sql.src.config import NetflixConfig
 
         config = NetflixConfig()
+    elif client == "tickets":
+        from text2sql.src.config import TicketsConfig
+
+        config = TicketsConfig()
     else:
         raise ValueError(f"Invalid client: {client}")
 
