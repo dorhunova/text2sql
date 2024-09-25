@@ -72,6 +72,29 @@ class TicketsConfig(Config):
         from text2sql.src.train.tickets import load_training_data
 
         return load_training_data(vn)
+    
+
+class RepairsConfig(Config):
+
+    def __init__(self):
+        self.logo = "https://upload.wikimedia.org/wikipedia/commons/e/e6/N-iX_logo.jpg"
+        self.title = "Analyse Your Repairment Tickets"
+        self.subtitle = "Ask questions about the repairment tickets in your database."
+
+    def get_logo(self):
+        return self.logo
+
+    def get_title(self):
+        return self.title
+
+    def get_subtitle(self):
+        return self.subtitle
+
+    @staticmethod
+    def load_training_data(vn):
+        from text2sql.src.train.repairs import load_training_data
+
+        return load_training_data(vn)
 
 
 class FirstStudentConfig(Config):

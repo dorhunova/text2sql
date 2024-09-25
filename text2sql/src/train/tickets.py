@@ -88,12 +88,11 @@ def load_training_data(vn):
     )
 
     vn.train(
-        question="List all tickets related to 'Equipment Repair' that were resolved successfully, showing the ticket ID, title, actual cost, and resolution summary.",
+        question="List all tickets where the request title contains the word 'Repair,' showing the ticket ID, description, request title, and resolution summary.",
         sql="""
-            SELECT ticket_id, request_title, CAST(REPLACE(actual_cost, '$', '') AS NUMERIC) AS actual_cost, resolution_summary
+            SELECT ticket_id, description, request_title, resolution_summary
             FROM tickets
-            WHERE request_type = 'Equipment Repair'
-                AND status = 'Closed';
+            WHERE request_title ILIKE '%Repair%';
         """,
     )
 
@@ -136,4 +135,25 @@ def load_training_data(vn):
             FROM tickets
             WHERE approval_status = 'Pending';
         """,
+    )
+    
+    vn.train(
+        question="List all tickets where the 'approval_status' is 'Pending' for more than 7 days, showing the ticket ID, request title, requested by, approval status, and days pending (current date minus created date).",
+        sql="""
+        SELECT ticket_id, request_title, requested_by, approval_status, 
+    (NOW()::DATE - created_date::DATE) AS days_pending
+        FROM tickets
+        WHERE approval_status = 'Pending'
+            AND (NOW()::DATE - created_date::DATE) > 7;
+        """
+    )
+    
+    vn.train(
+        question="Find the average feedback rating for each contractor, excluding cases where the there is no feedback rating. Show the contractor's name and the average rating.",
+        sql="""
+        SELECT assigned_contractor, AVG(CAST(NULLIF(feedback_rating, 'None') AS NUMERIC)) AS average_rating
+            FROM repairs
+            WHERE feedback_rating IS NOT NULL AND feedback_rating != 'None'
+            GROUP BY assigned_contractor;
+        """
     )

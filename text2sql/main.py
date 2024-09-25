@@ -50,6 +50,10 @@ if __name__ == "__main__":
         from text2sql.src.config import TicketsConfig
 
         config = TicketsConfig()
+    elif client == "repairs":
+        from text2sql.src.config import RepairsConfig
+
+        config = RepairsConfig()
     else:
         raise ValueError(f"Invalid client: {client}")
 
