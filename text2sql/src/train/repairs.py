@@ -35,7 +35,7 @@ def load_training_data(vn):
     vn.train(
         question="What is the total amount spent on all completed repair requests?",
         sql="""
-            SELECT SUM(CAST(REPLACE(amount, '$', '') AS NUMERIC)) AS total_spent
+            SELECT SUM(CAST(amount AS NUMERIC)) AS total_spent
             FROM repairs
             WHERE status = 'Completed';
         """,
@@ -102,7 +102,7 @@ def load_training_data(vn):
     vn.train(
         question="Calculate the average amount spent on 'Electrical' repairs for requests that have been marked as 'Done'.",
         sql="""
-            SELECT AVG(CAST(REPLACE(amount, '$', '') AS NUMERIC)) AS average_spent
+            SELECT AVG(CAST(amount AS NUMERIC)) AS average_spent
             FROM repairs
             WHERE repair_type = 'Electrical'
               AND completion_status = 'Done';
@@ -141,4 +141,15 @@ def load_training_data(vn):
             FROM repairs
             WHERE tenant_feedback ILIKE '%satisfied%';
         """,
+    )
+    
+    vn.train(
+        question="Find common repair types that were marked as 'Low' priority, showing the repair type and the count.",
+        sql="""
+            SELECT repair_type, COUNT(*) AS repair_count
+            FROM repairs
+            WHERE urgency = 'Low'
+            GROUP BY repair_type
+            ORDER BY repair_count DESC
+        """
     )
