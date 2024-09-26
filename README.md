@@ -80,3 +80,20 @@ Once completed, your Docker containers should be able to connect to your local P
 docker-compose up
 ```
 Your application should now be running on `http://0.0.0.0:8084`
+
+### CSV to DB
+
+If you want to copy a .csv file as a table into your local postgres instance, you can do so by running the following command:
+
+```bash
+.csv_to_table.sh <csv_file_path> 
+```
+
+Table name and DB name is going to be the name of the csv file, without the .csv extension.
+
+If you want to drop a table from the database, you can run the following command:
+
+```bash
+psql -h localhost -U <username> -p 5432 -c "DROP DATABASE IF EXISTS <db_name>;"
+```
+
